@@ -22,6 +22,36 @@
 
 html { scroll-behavior: smooth; }
 
+/* Contact form */
+.contact-section { padding: 120px 24px; background: var(--bg2); }
+.contact-inner { max-width: 680px; margin: 0 auto; }
+.contact-sub { color: var(--muted); margin-bottom: 48px; font-size: 17px; }
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.form-group input,
+.form-group textarea {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.2s;
+  outline: none;
+  width: 100%;
+}
+.form-group input:focus,
+.form-group textarea:focus { border-color: var(--blue); }
+.form-group textarea { resize: vertical; min-height: 140px; }
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(9,16,43,0.3); }
+.contact-form .btn-primary { align-self: flex-start; }
+.form-note { font-size: 13px; color: var(--muted); margin-top: -8px; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -916,7 +946,39 @@ footer {
     <p class="cta-label reveal">Nasta steg</p>
     <h2 class="cta-heading reveal">Första steget kostar ingenting.</h2>
     <p class="cta-sub reveal">Vi gör en kostnadsfri audit av din verksamhet och visar exakt vilka agenter som ger störst effekt för dig. Inga forpliktiganden.</p>
-    <a href="mailto:hello@fluxz.me" class="btn-primary reveal">Boka ett samtal</a>
+    <a href="#kontakt" class="btn-primary reveal">Boka ett samtal</a>
+  </div>
+</section>
+
+<section class="contact-section" id="kontakt">
+  <div class="contact-inner">
+    <p class="section-label reveal">Kontakt</p>
+    <h2 class="section-headline reveal">Berätta om din verksamhet.</h2>
+    <p class="contact-sub reveal">Fyll i formuläret så hör vi av oss inom 24 timmar.</p>
+    <form class="contact-form reveal" action="https://formspree.io/f/xpwzkvgb" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Namn</label>
+          <input type="text" id="name" name="name" placeholder="Ditt namn" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-post</label>
+          <input type="email" id="email" name="email" placeholder="din@email.se" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="company">Bolag</label>
+        <input type="text" id="company" name="company" placeholder="Bolagets namn">
+      </div>
+      <div class="form-group">
+        <label for="message">Meddelande</label>
+        <textarea id="message" name="message" rows="5" placeholder="Berätta kort om din verksamhet och vad du vill automatisera..." required></textarea>
+      </div>
+      <input type="hidden" name="_replyto" value="hello@fluxz.me">
+      <input type="hidden" name="_subject" value="Ny ansökan — Kapaciti.se">
+      <button type="submit" class="btn-primary">Skicka ansökan</button>
+      <p class="form-note">Vi svarar inom 24 timmar. Inga förpliktiganden.</p>
+    </form>
   </div>
 </section>
 
