@@ -661,6 +661,29 @@ footer {
 }
 
 
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(8,8,12,0.75); z-index: 9999; align-items: center; justify-content: center; padding: 24px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: #fff; border-radius: 16px; padding: 56px 48px; max-width: 560px; width: 100%; position: relative; }
+.modal-close { position: absolute; top: 20px; right: 24px; background: none; border: none; font-size: 22px; color: #9ca3af; cursor: pointer; line-height: 1; }
+.modal-close:hover { color: #111; }
+.modal-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #2563eb; margin-bottom: 12px; }
+.modal-headline { font-size: 26px; font-weight: 800; color: #08080c; margin-bottom: 8px; line-height: 1.2; }
+.modal-sub { font-size: 14px; color: #6b7280; margin-bottom: 36px; }
+.modal-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field label { font-size: 12px; font-weight: 600; color: #374151; letter-spacing: .04em; }
+.form-field input, .form-field select, .form-field textarea { border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; font-size: 14px; font-family: inherit; color: #111; outline: none; transition: border-color .15s; }
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: #2563eb; }
+.form-field textarea { resize: vertical; min-height: 80px; }
+.form-submit { background: #08080c; color: #fff; border: none; border-radius: 8px; padding: 14px 28px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: background .15s; }
+.form-submit:hover { background: #1d4ed8; }
+.form-success { display: none; text-align: center; padding: 40px 0; }
+.form-success h3 { font-size: 22px; font-weight: 800; color: #08080c; margin-bottom: 12px; }
+.form-success p { font-size: 15px; color: #6b7280; }
+@media (max-width: 600px) { .modal-box { padding: 40px 24px; } .form-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -674,7 +697,7 @@ footer {
     <a href="#services" class="nav-link">Tjänster</a>
     <a href="#process" class="nav-link">Process</a>
     <a href="#case" class="nav-link">Klientresultat</a>
-    <a href="mailto:hello@fluxz.me" class="nav-cta">Vill du veta mer?</a>
+    <button onclick="openModal()" class="nav-cta">Vill du veta mer?</button>
   </div>
 </nav>
 
@@ -691,7 +714,7 @@ footer {
     Vi bygger AI-agenter som driver SEO, annonsering, kundtjänst, content och försäljning. Automatiserat. Skalbart. Utan att du lyfter ett finger.
   </p>
   <div class="hero-cta-row">
-    <a href="mailto:hello@fluxz.me" class="btn-primary">Vill du veta mer?</a>
+    <button onclick="openModal()" class="btn-primary">Vill du veta mer?</button>
     <span class="hero-note">Begränsat antal platser — April 2026</span>
   </div>
 </section>
@@ -913,7 +936,7 @@ footer {
         <li>Månadlig prestandarapport</li>
         <li>E-support inom 24 timmar</li>
       </ul>
-      <a href="mailto:hello@fluxz.me" class="package-cta">Vill du veta mer?</a>
+      <button onclick="openModal()" class="package-cta">Vill du veta mer?</button>
     </div>
     <div class="package-card featured reveal">
       <p class="package-label">Vanligast</p>
@@ -926,7 +949,7 @@ footer {
         <li>Prioritetssupport och månatliga strategimöten</li>
         <li>Kontinuerlig optimering ingår</li>
       </ul>
-      <a href="mailto:hello@fluxz.me" class="package-cta">Vill du veta mer?</a>
+      <button onclick="openModal()" class="package-cta">Vill du veta mer?</button>
     </div>
     <div class="package-card reveal">
       <p class="package-label">Enterprise</p>
@@ -940,7 +963,7 @@ footer {
         <li>SLA med garanterad responstid</li>
         <li>Fullständig genomgång av befintliga processer</li>
       </ul>
-      <a href="mailto:hello@fluxz.me" class="package-cta">Vill du veta mer?</a>
+      <button onclick="openModal()" class="package-cta">Vill du veta mer?</button>
     </div>
   </div>
 </section>
@@ -988,7 +1011,7 @@ footer {
       </div>
       <span class="slot-text">2 av 3 platser bokade — Q2 2026</span>
     </div>
-    <a href="mailto:hello@fluxz.me" class="btn-white reveal">Vill du veta mer?</a>
+    <button onclick="openModal()" class="btn-white reveal">Vill du veta mer?</button>
   </div>
 </section>
 
@@ -998,7 +1021,7 @@ footer {
     <p class="cta-label reveal">Nasta steg</p>
     <h2 class="cta-heading reveal">Första steget kostar ingenting.</h2>
     <p class="cta-sub reveal">Vi gör en kostnadsfri audit av din verksamhet och visar exakt vilka agenter som ger störst effekt för dig. Inga forpliktiganden.</p>
-    <a href="#kontakt" class="btn-primary reveal">Vill du veta mer?</a>
+    <button onclick="openModal()" class="btn-primary reveal">Vill du veta mer?</button>
   </div>
 </section>
 
@@ -1124,6 +1147,85 @@ window.addEventListener('scroll', () => {
   document.querySelector('nav').style.boxShadow =
     window.scrollY > 40 ? '0 1px 24px rgba(9,16,43,0.06)' : 'none';
 });
+</script>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="contactModal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <p class="modal-eyebrow">Behovsanalys</p>
+    <h2 class="modal-headline">Berätta om ditt bolag.</h2>
+    <p class="modal-sub">Vi återkommer inom 24 timmar med en konkret plan.</p>
+    <form class="modal-form" id="contactForm" action="https://formspree.io/f/xoqgpnjb" method="POST" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="name">Namn</label>
+          <input type="text" id="name" name="name" placeholder="Anna Lindgren" required>
+        </div>
+        <div class="form-field">
+          <label for="company">Bolag</label>
+          <input type="text" id="company" name="company" placeholder="Ditt AB" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="email">E-post</label>
+          <input type="email" id="email" name="email" placeholder="anna@dittbolag.se" required>
+        </div>
+        <div class="form-field">
+          <label for="phone">Telefon</label>
+          <input type="tel" id="phone" name="phone" placeholder="070 000 00 00">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="employees">Antal anställda</label>
+        <select id="employees" name="employees" required>
+          <option value="" disabled selected>Välj storlek</option>
+          <option value="1-10">1–10 anställda</option>
+          <option value="11-50">11–50 anställda</option>
+          <option value="51-200">51–200 anställda</option>
+          <option value="200+">200+ anställda</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="challenge">Vad är er största utmaning just nu?</label>
+        <textarea id="challenge" name="challenge" placeholder="T.ex. för lite tid till rätt saker, svårt att skala, hög personalkostnad..." required></textarea>
+      </div>
+      <input type="hidden" name="_subject" value="Ny behovsanalys via kapaciti.se">
+      <button type="submit" class="form-submit">Skicka — kostnadsfritt</button>
+    </form>
+    <div class="form-success" id="formSuccess">
+      <h3>Vi hör av oss.</h3>
+      <p>Förvänta dig ett svar inom 24 timmar med en konkret analys av ditt bolag.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal() {
+  document.getElementById('contactModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('contactModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('contactModal')) closeModal();
+}
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  try {
+    const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+  } catch(err) { form.submit(); }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
