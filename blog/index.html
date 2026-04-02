@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blogg — AI-automation för svenska företag | Kapaciti</title>
+<meta name="description" content="Guider, case studies och insikter om AI-automation för svenska SME-bolag.">
+<link rel="canonical" href="https://kapaciti.se/blog/">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#F7F7F5;--bg2:#EEECE7;--navy:#09102B;--blue:#1A40AA;--text:#09102B;--muted:rgba(9,16,43,0.42);--border:rgba(9,16,43,0.07)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--navy);line-height:1.7}
+nav{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-weight:700;font-size:18px;color:var(--blue);text-decoration:none}
+.nav-link{color:var(--navy);text-decoration:none;font-size:14px;opacity:.7;transition:opacity .2s}.nav-link:hover{opacity:1}
+.hero{padding:80px 24px 60px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+.hero h1{font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.15;margin-bottom:16px}
+.hero p{font-size:18px;color:var(--muted);max-width:520px;margin:0 auto}
+.grid-section{max-width:1140px;margin:0 auto;padding:60px 24px 100px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none;display:block;color:inherit}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(9,16,43,.08)}
+.card-body{padding:24px}
+.card-date{font-size:12px;color:var(--muted);margin-bottom:10px}
+.card h2{font-size:17px;font-weight:700;line-height:1.35;margin-bottom:10px}
+.card p{font-size:14px;color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.read-more{color:var(--blue);font-weight:600;display:flex;align-items:center;gap:4px}
+.read-more svg{transition:transform .2s}.card:hover .read-more svg{transform:translateX(4px)}
+.empty{text-align:center;padding:80px 24px;color:var(--muted);font-size:16px}
+.loading{text-align:center;padding:80px 24px}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{text-align:center;padding:40px 24px;font-size:13px;color:var(--muted);border-top:1px solid var(--border)}
+footer a{color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">KAPACITI</a>
+  <a href="/#contact" class="nav-link">Boka demo</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">AI-automation</div>
+  <h1>Kapaciti Blogg</h1>
+  <p>Guider och insikter om hur svenska företag automatiserar med AI, sparar tid och vinner kunder.</p>
+</div>
+
+<div class="grid-section">
+  <div id="grid" class="grid">
+    <div class="loading"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 Kapaciti AB &middot;
+  <a href="/">Startsida</a> &middot;
+  <a href="/#contact">Kontakt</a>
+</footer>
+
+<script>
+async function loadPosts() {
+  try {
+    const res = await fetch('/blog/index.json');
+    const posts = await res.json();
+    const grid = document.getElementById('grid');
+
+    if (!posts || posts.length === 0) {
+      grid.innerHTML = '<div class="empty">Inga inlägg publicerade ännu.</div>';
+      return;
+    }
+
+    grid.innerHTML = posts.map(post => `
+      <a href="/blog/${post.slug}.html" class="card">
+        <div class="card-body">
+          <div class="card-date">${formatDate(post.date)}</div>
+          <h2>${escHtml(post.title)}</h2>
+        </div>
+        <div class="card-footer">
+          <span style="font-size:12px;color:var(--muted)">Kapaciti</span>
+          <span class="read-more">
+            Läs mer
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+    `).join('');
+  } catch (e) {
+    document.getElementById('grid').innerHTML = '<div class="empty">Kunde inte ladda inlägg.</div>';
+  }
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const date = new Date(d);
+  return date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+loadPosts();
+</script>
+</body>
+</html>
